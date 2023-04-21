@@ -7,18 +7,18 @@ package com.example.hackathon1;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
 
@@ -27,7 +27,14 @@ public class MainActivity extends AppCompatActivity
     TextView x, y, z, p, b, l;
     SensorManager sm; // It is a service which we can get using getSystemService() method
     SensorManager sm1;
-    SQLiteDatabase db;
+    FirebaseDatabase db;
+    DatabaseReference ref;
+    DatabaseReference child1;
+    DatabaseReference child2;
+    DatabaseReference child3;
+    DatabaseReference child4;
+    DatabaseReference child5;
+    DatabaseReference child6;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -45,6 +52,21 @@ public class MainActivity extends AppCompatActivity
         sm = (SensorManager) getSystemService(SENSOR_SERVICE);
         sm1 = (SensorManager) getSystemService(SENSOR_SERVICE);
 
+        db = FirebaseDatabase.getInstance(); // Returns object of entire database
+        // ref = db.getReference();  --> Returns root node address
+        // ref = db.getReference(String childpath) --> Returns passed child node path
+        ref = db.getReference();
+        child1 = db.getReference("Accelerometer x : ");
+        child2 = db.getReference("Accelerometer y : ");
+        child3 = db.getReference("Accelerometer z :");
+        child4 = db.getReference("Proximity : ");
+        child5 = db.getReference("Luminosity : ");
+        child6 = db.getReference("Barometer : ");
+
+        String X = x.getText().toString();
+        String Y = y.getText().toString();
+        String Z = z.getText().toString();
+        String Pro = p.getText().toString();
 
 
         if(sm == null) // Normally every device will have sensor in it so this is not necessary
@@ -97,6 +119,13 @@ public class MainActivity extends AppCompatActivity
                     x.setText("X val : " + x1);
                     y.setText("Y val : " + y1);
                     z.setText("Z val : " + z1);
+
+                    String x = Float.toString(x1);
+                    String y = Float.toString(y1);
+                    String z = Float.toString(z1);
+                    child1.setValue(x);
+                    child2.setValue(y);
+                    child3.setValue(z);
                 }
                 @Override
                 public void onAccuracyChanged(Sensor sensor, int i) {}
@@ -121,6 +150,8 @@ public class MainActivity extends AppCompatActivity
                         {
                             Toast.makeText(MainActivity.this, "Object is near...", Toast.LENGTH_SHORT).show();
                         }
+                        String prox = Float.toString(val);
+                        child4.setValue(prox);
                     }
                 }
                 @Override
@@ -138,6 +169,8 @@ public class MainActivity extends AppCompatActivity
                         float pe = sensorEvent.values[0];
                         @SuppressLint("DefaultLocale") String pre = String.format("%3f mbar", pe);
                         b.setText(pre);
+                        String press = Float.toString(pe);
+                        child4.setValue(press);
                     }
                 }
                 @Override
@@ -154,13 +187,15 @@ public class MainActivity extends AppCompatActivity
                     {
                         float li = sensorEvent.values[0];
                         l.setText("Luminosity : " + li);
+                        String Lumi = Float.toString(li);
+                        child5.setValue(Lumi);
                     }
                 }
                 @Override
                 public void onAccuracyChanged(Sensor sensor, int i) {}
             }, s3, SensorManager.SENSOR_DELAY_NORMAL);
-        }
 
+        }
 
     }
 }
