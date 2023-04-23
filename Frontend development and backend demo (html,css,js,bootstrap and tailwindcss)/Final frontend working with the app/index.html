@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Hackathon</title>
+
+    <link rel="stylesheet" href="index.css">
+
+    <script type="module">
+
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-app.js";
+
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-analytics.js";
+
+    
+
+      const firebaseConfig = {
+
+        apiKey: "AIzaSyC_p3ZNfNIQgCJS69upxl2kkrITKkWqTe4",
+
+        authDomain: "hakathon1-48f80.firebaseapp.com",
+
+        databaseURL: "https://hakathon1-48f80-default-rtdb.firebaseio.com",
+
+        projectId: "hakathon1-48f80",
+
+        storageBucket: "hakathon1-48f80.appspot.com",
+
+        messagingSenderId: "461195207495",
+
+        appId: "1:461195207495:web:02dd6810e1a0c773152262",
+
+        measurementId: "G-K3Y9SZXZ2V"
+
+      };
+
+      // Initialize Firebase
+
+      const app = initializeApp(firebaseConfig);
+
+      import {getDatabase, ref, set, get, child, update, remove}
+
+      from "https://www.gstatic.com/firebasejs/9.20.0/firebase-database.js";
+
+      
+
+      const db = getDatabase();
+
+      var x1 = document.getElementById("i1");
+
+      var x2 = document.getElementById("i2");
+
+      var x3 = document.getElementById("i3");
+
+      var x4 = document.getElementById("i4");
+
+      var x5 = document.getElementById("i5");
+
+      const dbref = ref(db);
+
+      get(child(dbref, "Accelerometer x : ")).then((snapshot)=>
+
+      {
+
+        if (snapshot.exists()) 
+
+        {
+
+            x1.value = snapshot.val();
+
+        }
+
+        else { alert("No data found....."); }
+
+      });
+
+      get(child(dbref, "Accelerometer y : ")).then((snapshot)=>
+
+      {
+
+        if (snapshot.exists()) 
+
+        {
+
+            x2.value = snapshot.val();
+
+        }
+
+        else { alert("No data found....."); }
+
+      });
+
+      get(child(dbref, "Accelerometer z :")).then((snapshot)=>
+
+      {
+
+        if (snapshot.exists()) 
+
+        {
+
+            x3.value = snapshot.val();
+
+        }
+
+        else { alert("No data found....."); }
+
+      });
+
+      get(child(dbref, "Proximity : ")).then((snapshot)=>
+
+      {
+
+        if (snapshot.exists()) 
+
+        {
+
+            x4.value = snapshot.val();
+
+        }
+
+        else { alert("No data found....."); }
+
+      });
+
+      get(child(dbref, "Luminosity : ")).then((snapshot)=>
+
+      {
+
+        if (snapshot.exists()) 
+
+        {
+
+            x5.value = snapshot.val();
+
+        }
+
+        else { alert("No data found....."); }
+
+      });
+
+</script>
+
+</head>
+
+<body background="https://img.freepik.com/free-vector/network-mesh-wire-digital-technology-background_1017-27428.jpg?size=626&ext=jpg&ga=GA1.2.672198050.1679639209&semt=ais">
+
+    <center style="font-size: 30px; color: blue; padding-top: 110px; padding-left: 500px; padding-right: 500px;">
+
+        <div style="border: 2px blue solid; background-color: white;">
+
+        <h3 id="myhead">Your device current sensor data</h3></div><br>
+
+        <div style="border: 2px blue solid; background-color: white;"><br>
+
+        <label>Accelerometer X &nbsp= </label> <input id="i1" type="text" size="20" style="line-height: 2em;"><br><br>
+
+        <label>Accelerometer Y &nbsp= </label> <input id="i2" type="text" size="20" style="line-height: 2em;"><br><br>
+
+        <label>Accelerometer Z &nbsp= </label> <input id="i3" type="text" size="20" style="line-height: 2em;"><br><br>
+
+        <label>Proximity Value &nbsp&nbsp= </label> <input id="i4" type="text" size="20" style="line-height: 2em;"><br><br>
+
+        <label>Luminosity value = </label> <input id="i5" type="text" size="20" style="line-height: 2em;"><br><br>
+
+        </div>
+
+    </center>
+
+</body>
+
+</html>
